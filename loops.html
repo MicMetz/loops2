@@ -78,7 +78,14 @@
       ]
 
       function searchName() {
+          clearResults();
           let name = document.getElementById("names").value;
+          if (name === "") {
+              alert("Please enter a name");
+              return;
+          }
+
+
           let matches = document.getElementsByClassName("matches");
           let simularities = document.getElementsByClassName("simularities");
           let matchList = [];
@@ -91,15 +98,24 @@
           for (let i = 0; i < phonebook.length; i++) {
               var characterCompare = 0;
 
-              if (name === phonebook[i].name) {
+              if (name.toLowerCase() === phonebook[i].name.toLowerCase()) {
                   matchList.push(phonebook[i].name + " " + phonebook[i].number);
-
               } else {
-                  for (let j = 0; j < name.length; j++) {
-                      if (name[j] === phonebook[i].name[j]) {
+                  var x = 0;
+                  var y = 0;
+                  var tempName = name.toLowerCase();
+                  var tempPhonebookName = phonebook[i].name.toLowerCase();
+                  while (x < name.length && y < phonebook[i].name.length) {
+                      if (tempName.charAt(x) === tempPhonebookName.charAt(y)) {
                           characterCompare++;
+                          x++;
+                          y++;
                       } else {
-                          break;
+                          if (x === 0) {
+                              y++;
+                          } else {
+                              x = 0;
+                          }
                       }
                   }
                   if (characterCompare > phonebook[i].name.length / 2) {
@@ -108,38 +124,42 @@
               }
 
           }
-          match.innerHTML = matchList.join("<br>");
-          simularity.innerHTML = simularityList.join("<br>");
 
 
-          if (matchList.length === 0 && simularityList.length === 0) {
+          if (matchList.length === 0) {
               match.innerHTML = "No matches found";
-              simularity.innerHTML = "No simularities found";
-          } else if (matchList.length === 0) {
-              match.innerHTML = "No matches found";
-          } else if (simularityList.length === 0) {
-              simularity.innerHTML = "No simularities found";
           } else {
               for (let i = 0; i < matchList.length; i++) {
                   let li = document.createElement("li");
                   li.appendChild(document.createTextNode(matchList[i]));
                   match.appendChild(li);
               }
+          }
 
+          if (simularityList.length === 0) {
+              simularity.innerHTML = "No simularities found";
+          } else {
               for (let i = 0; i < simularityList.length; i++) {
                   let li = document.createElement("li");
                   li.appendChild(document.createTextNode(simularityList[i]));
                   simularity.appendChild(li);
               }
           }
+
       }
 
       function resetSearch() {
           let results = document.getElementById("results");
           results.style.display = "none";
           document.getElementById("names").value = "";
-          document.getElementById("match").innerHTML = "";
-          document.getElementById("simularity").innerHTML = "";
+          clearResults();
+      }
+
+      function clearResults() {
+          let match = document.getElementById("match");
+          let simularity = document.getElementById("simularity");
+          match.innerHTML = "";
+          simularity.innerHTML = "";
       }
 
 
