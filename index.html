@@ -21,14 +21,17 @@
 	<body style="align-items: flex-start; margin-top: 5vh;">
 		
 		<div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-			<button class="playable-buttons" onclick="resetSearch()" style="text-align: center">Reset</button>
+			<button class="playable-buttons" onclick="resetSearch()" style="background-color:#0a53be; color: white; border-top-right-radius: 5px; border-top-left-radius: 5px; text-align: center">Reset</button>
 			
 			<section class="preview" style="align-content: center;">
 				<label for="names">
-					Names:
+					Name:
 					<input type="text" id="names" name="names" placeholder="Enter names separated by commas"/>
 				</label>
-				<button class="playable-buttons" id="submit" style=" left: 50%; right: 50%; width: fit-content; padding-left: 0; padding-right: 0; " onclick="searchName()">Search</button>
+				<button class="playable-buttons" id="submit" style="background-color:#0a53be; color: white; border-radius: 5px; left: 50%; right: 50%; width: fit-content; padding-left: 0; padding-right: 0;" onclick="searchName()"
+				>
+					Search
+				</button>
 				
 				<div id="results" style="display: none;">
 					<p class="matches">Matches:</p>
