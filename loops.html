@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Loops: Task 2</title>
+		<style>
+        p {
+            color  : purple;
+            margin : 0.5em 0;
+        }
+
+
+
+        * {
+            box-sizing : border-box;
+        }
+		</style>
+		<link rel="stylesheet" href="./styles.css"/>
+	</head>
+	
+	<body style="align-items: flex-start; margin-top: 5vh;">
+		
+		<div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+			<button class="playable-buttons" onclick="resetSearch()" style="text-align: center">Reset</button>
+			
+			<section class="preview" style="align-content: center;">
+				<label for="names">
+					Names:
+					<input type="text" id="names" name="names" placeholder="Enter names separated by commas"/>
+				</label>
+				<button class="playable-buttons" id="submit" style=" left: 50%; right: 50%; width: fit-content; padding-left: 0; padding-right: 0; " onclick="searchName()">Search</button>
+				
+				<div id="results" style="display: none;">
+					<p class="matches">Matches:</p>
+					<ul id="match">
+					
+					</ul>
+					
+					<br>
+					
+					<p class="simularities">Simularities:</p>
+					<ul id="simularity">
+					
+					</ul>
+				
+				</div>
+			</section>
+		</div>
+	
+	
+	</body>
+	<script>
+      /*
+			* In this next task, we want you to write a simple program that, given a name, searches an array of objects containing names and phone numbers (phonebook) and,
+			* if it finds the name, outputs the name and phone number into the paragraph (para) and then exits the loop before it has run its course.
+			*
+			*	If you haven't read about objects yet, don't worry! For now, all you need to know is how to access a member-value pair.
+			* You can read up on objects in the JavaScript object basics tutorial.
+			*
+			*	You are given three variables to begin with:
+			*
+			*	 1. name — contains a name to search for
+			*	 2. para — contains a reference to a paragraph, which will be used to report the results
+			*	 3. phonebook - contains the phonebook entries to search.
+			*
+			*  */
+      const para = document.createElement('p');
+
+      const phonebook = [
+          {name: 'Chris', number: '1549'},
+          {name: 'Li Kang', number: '9634'},
+          {name: 'Anne', number: '9065'},
+          {name: 'Francesca', number: '3001'},
+          {name: 'Mustafa', number: '6888'},
+          {name: 'Tina', number: '4312'},
+          {name: 'Bert', number: '7780'},
+          {name: 'Jada', number: '2282'},
+      ]
+
+      function searchName() {
+          let name = document.getElementById("names").value;
+          let matches = document.getElementsByClassName("matches");
+          let simularities = document.getElementsByClassName("simularities");
+          let matchList = [];
+          let simularityList = [];
+          let match = document.getElementById("match");
+          let simularity = document.getElementById("simularity");
+          let results = document.getElementById("results");
+          results.style.display = "block";
+
+          for (let i = 0; i < phonebook.length; i++) {
+              var characterCompare = 0;
+
+              if (name === phonebook[i].name) {
+                  matchList.push(phonebook[i].name + " " + phonebook[i].number);
+
+              } else {
+                  for (let j = 0; j < name.length; j++) {
+                      if (name[j] === phonebook[i].name[j]) {
+                          characterCompare++;
+                      } else {
+                          break;
+                      }
+                  }
+                  if (characterCompare > phonebook[i].name.length / 2) {
+                      simularityList.push(phonebook[i].name + " " + phonebook[i].number);
+                  }
+              }
+
+          }
+          match.innerHTML = matchList.join("<br>");
+          simularity.innerHTML = simularityList.join("<br>");
+
+
+          if (matchList.length === 0 && simularityList.length === 0) {
+              match.innerHTML = "No matches found";
+              simularity.innerHTML = "No simularities found";
+          } else if (matchList.length === 0) {
+              match.innerHTML = "No matches found";
+          } else if (simularityList.length === 0) {
+              simularity.innerHTML = "No simularities found";
+          } else {
+              for (let i = 0; i < matchList.length; i++) {
+                  let li = document.createElement("li");
+                  li.appendChild(document.createTextNode(matchList[i]));
+                  match.appendChild(li);
+              }
+
+              for (let i = 0; i < simularityList.length; i++) {
+                  let li = document.createElement("li");
+                  li.appendChild(document.createTextNode(simularityList[i]));
+                  simularity.appendChild(li);
+              }
+          }
+      }
+
+      function resetSearch() {
+          let results = document.getElementById("results");
+          results.style.display = "none";
+          document.getElementById("names").value = "";
+          document.getElementById("match").innerHTML = "";
+          document.getElementById("simularity").innerHTML = "";
+      }
+
+
+      // Don't edit the code below here!
+      const section = document.querySelector('section');
+      section.appendChild(para);
+	</script>
+
+</html>
